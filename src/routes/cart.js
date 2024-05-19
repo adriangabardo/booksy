@@ -42,6 +42,8 @@ router.post("/cart", async (req, res) => {
       return res.status(500).send("Error adding product to checkout_items");
     }
 
+    res.locals.cartId = cartId;
+
     res.status(201).send({ cartId });
   });
 });
@@ -77,6 +79,72 @@ router.get("/cart", (req, res) => {
       });
     });
   });
+});
+
+router.get("/checkout/:cartId", (req, res) => {
+  const { cartId } = req.params;
+
+  if (!cartId) return res.status(400).send("cartId is required");
+
+  const getCheckoutQuery = `SELECT * FROM checkout WHERE id = ?`;
+  const getCheckoutItemsQuery = `SELECT * FROM checkout_items WHERE checkoutId = ?`;
+  const getProductDetailsQuery = `SELECT * FROM products WHERE id = ?`;
+
+  db.get(getCheckoutQuery, [cartId], (err, checkout) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Error retrieving checkout");
+    }
+
+    if (!checkout) {
+      return res.status(404).send("Checkout not found");
+    }
+
+    db.all(getCheckoutItemsQuery, [cartId], (err, items) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send("Error retrieving checkout items");
+      }
+
+      const productDetailsPromises = items.map(
+        (item) =>
+          new Promise((res, rej) => {
+            db.get(getProductDetailsQuery, [item.productId], (err, product) => {
+              if (err) return rej(err);
+              res({ ...product, quantity: item.quantity, subtotal: product.price * item.quantity });
+            });
+          })
+      );
+
+      Promise.all(productDetailsPromises)
+        .then((products) => {
+          const subtotal = Math.round(
+            products.reduce((previous, current) => {
+              previous += current.subtotal;
+              return previous;
+            }, 0)
+          );
+
+          const taxes = Math.round(subtotal * 0.1);
+
+          const total = Math.round(subtotal + taxes);
+
+          res.render("checkout", {
+            checkout: { ...checkout, subtotal, total, taxes },
+            products,
+          });
+        })
+        .catch((err) => {
+          console.error(err.message);
+          res.status(500).send("Error retrieving product details");
+        });
+    });
+  });
+});
+
+router.post("/checkout/:cartId", (req, res) => {
+  // res.status(200).json("OK!");
+  res.redirect("/");
 });
 
 module.exports = { cartRouter: router };

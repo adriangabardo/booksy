@@ -1,0 +1,115 @@
+<%- include('header'); -%> <%- include('navbar'); -%>
+
+<main class="container my-5">
+  <div class="row mx-2">
+    <div class="col p-0">
+      <h5>Cart</h5>
+      <% products.forEach(function(product) { %>
+      <div class="card w-100 mb-3">
+        <div class="row g-0">
+          <div class="col-4">
+            <img
+              src="<%= product.image %>"
+              class="img-fluid rounded-start"
+              alt="<%= product.title %>"
+              style="height: 100%; object-fit: cover"
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <a href="/product/<%= product.id %>" class="text-reset text-decoration-none">
+                <h5 class="card-title"><%= product.title %></h5>
+                <p class="card-text"><%= product.description %></p>
+              </a>
+              <div style="width: 100%; display: inline-flex; justify-content: space-between; align-items: center">
+                <p class="card-text p-0"><small class="text-body-secondary">$<%= product.subtotal %></small></p>
+                <button onclick="removeFromCart('<%= product.id %>')" class="btn btn-outline-danger btn-sm">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <div class="col">
+      <h5>Checkout</h5>
+      <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px">
+        <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Summary</h5>
+        <div class="m-4">
+          <table class="table table-borderless table-sm table-responsive">
+            <tbody>
+              <tr>
+                <th>Subtotal</th>
+                <td class="text-end">$<%= checkout.subtotal %></td>
+              </tr>
+              <tr>
+                <th>Delivery</th>
+                <td class="text-end">Free</td>
+              </tr>
+              <tr>
+                <th>Taxes</th>
+                <td class="text-end">$<%= checkout.taxes %></td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <td class="text-end">$<%= checkout.total %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <form method="POST">
+        <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px" class="mt-2">
+          <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Delivery Address</h5>
+          <div class="m-4">
+            <div class="mb-1">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" class="form-control" name="fullName" placeholder="Full Name" required />
+            </div>
+            <div class="mb-1">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" name="address" placeholder="1234 Main St" required />
+            </div>
+            <div class="mb-1">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" name="city" placeholder="City" required />
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-1">
+                <label for="state" class="form-label">State</label>
+                <input type="text" class="form-control" name="state" placeholder="State" required />
+              </div>
+              <div class="col-md-6 mb-1">
+                <label for="zip" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" name="postal" placeholder="Postal Code" required />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px" class="mt-2">
+          <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Contact Info</h5>
+          <div class="m-4">
+            <div class="mb-1">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="mb-1">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="tel" class="form-control" name="phone" placeholder="04XX YYY ZZZZ" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="d-grid mt-2">
+          <button class="btn btn-primary" type="submit">Checkout Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="http://localhost:3000/scripts/removeFromCart.js" defer></script>
+
+<%- include('footer'); -%>

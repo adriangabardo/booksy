@@ -14,7 +14,7 @@
       <button class="btn btn-outline-success" type="submit" style="border-radius: 0 0.375rem 0.375rem 0">Search</button>
     </form>
     <div>
-      <a class="nav-link position-relative" href="/checkout">
+      <a class="nav-link position-relative" id="checkout-href">
         <span
           class="badge rounded-pill bg-transparent text-primary position-absolute top-0 start-100 translate-middle"
           id="checkout-quantity"
@@ -46,7 +46,7 @@
     const cart = localStorage.getItem("cart");
 
     if (cart) {
-      const { items } = JSON.parse(cart);
+      const { items, checkout } = JSON.parse(cart);
 
       const totalItems = items.reduce((previous, current) => {
         previous += current.quantity;
@@ -54,6 +54,7 @@
       }, 0);
 
       document.getElementById("checkout-quantity").textContent = totalItems;
+      document.getElementById("checkout-href").href = `/checkout/${checkout}`;
     }
   };
 
