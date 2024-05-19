@@ -4,7 +4,7 @@ const path = require("path");
 const sqlite3 = require("sqlite3").verbose();
 const { v4: uuidv4 } = require("uuid"); // To generate UUIDs
 
-const navLinks = require("./data/links");
+const navLinks = require("../data/links");
 
 const app = express();
 const port = 3000;
