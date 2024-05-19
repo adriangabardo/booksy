@@ -1,7 +1,8 @@
 const products = [
   {
     title: "Do Androids Dream of Electric Product",
-    description: "Do Androids Dream of Electric Product description...",
+    description:
+      "Dive into the visionary world of Phillip K. Nick's classic science fiction novel. Explore themes of artificial intelligence and existential dread in this timeless dystopian tale. Perfect for fans of thought-provoking literature.",
     author: "Phillip K. Nick",
     year: 1968,
     price: "9.99",
@@ -11,7 +12,8 @@ const products = [
   },
   {
     title: "Wuthering Product",
-    description: "Wuthering Product description...",
+    description:
+      "Natalia Bronte's masterful work is a powerful story of passion, revenge, and the supernatural. Set on the bleak Yorkshire moors, this classic romance captures the intense emotions of its unforgettable characters.",
     author: "Natalia Bronte",
     year: 1847,
     price: "19.99",
@@ -21,7 +23,8 @@ const products = [
   },
   {
     title: "Product and Prejudice",
-    description: "Product and Prejudice description...",
+    description:
+      "Texas Austen's beloved novel offers a witty exploration of manners, marriage, and morality. This classic tale of Elizabeth Bennet and Mr. Darcy is as enchanting today as when it was first published in 1813.",
     author: "Texas Austen",
     year: 1813,
     price: "31.99",
@@ -31,7 +34,8 @@ const products = [
   },
   {
     title: "The Great Product",
-    description: "The Great Product description...",
+    description:
+      "F. Scott Fritzgerald's masterpiece is a profound examination of the American Dream. Set in the Roaring Twenties, this novel tells the tragic story of Jay Gatsby and his unrequited love for Daisy Buchanan.",
     author: "F. Scott Fritzgerald",
     year: 1925,
     price: "14.99",
@@ -41,7 +45,8 @@ const products = [
   },
   {
     title: "Moby Product",
-    description: "Moby Product description...",
+    description:
+      "Herman Malville's epic tale of obsession and revenge is a cornerstone of American literature. Follow Captain Ahab's relentless pursuit of the white whale, Moby Dick, in this thrilling adventure.",
     author: "Herman Malville",
     year: 1851,
     price: "18.99",
@@ -51,7 +56,8 @@ const products = [
   },
   {
     title: "To Product a Mockingbird",
-    description: "To Product a Mockingbird description...",
+    description:
+      "Harper Ree's timeless novel is a poignant exploration of racial injustice and moral growth. Set in the American South, this classic drama is a must-read for its powerful narrative and memorable characters.",
     author: "Harper Ree",
     year: 1960,
     price: "12.99",
@@ -61,7 +67,8 @@ const products = [
   },
   {
     title: "Brave New Product",
-    description: "Brave New Product description...",
+    description:
+      "Aldous Huxley's groundbreaking dystopian novel explores a future world of technological control and societal manipulation. A must-read for fans of science fiction and thought-provoking narratives.",
     author: "Aldous Huxley",
     year: 1932,
     price: "15.99",
@@ -71,7 +78,8 @@ const products = [
   },
   {
     title: "The Catcher in the Product",
-    description: "The Catcher in the Product description...",
+    description:
+      "J.D. Salinger's classic novel captures the struggles of teenage rebellion and identity. Follow Holden Caulfield's journey through New York City in this timeless coming-of-age story.",
     author: "J.D. Salinger",
     year: 1951,
     price: "13.99",
@@ -81,7 +89,8 @@ const products = [
   },
   {
     title: "1984 Product",
-    description: "1984 Product description...",
+    description:
+      "George Orwell's chilling dystopian novel remains a powerful critique of totalitarianism. Experience the oppressive world of Big Brother and the fight for freedom in this enduring classic.",
     author: "George Orwell",
     year: 1949,
     price: "16.99",
