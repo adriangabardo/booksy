@@ -14,8 +14,6 @@ const set_locals = async (req, res, next) => {
     rows.forEach((row) => {
       const { author, year, tags } = row;
 
-      console.log({ author, year, tags });
-
       if (!authorsFilter.includes(author)) authorsFilter.push(author);
       if (!yearsFilter.includes(year)) yearsFilter.push(year);
 
@@ -28,11 +26,11 @@ const set_locals = async (req, res, next) => {
       authorsFilter,
       yearsFilter,
       tagsFilter,
+      minPrice: "5",
+      maxPrice: "100",
     };
 
     res.locals.navLinks = navLinks;
-    res.locals.minPrice = "5";
-    res.locals.maxPrice = "100";
 
     return next();
   });

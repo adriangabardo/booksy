@@ -43,6 +43,7 @@ app.use((error, req, res, next) => {
   // here and next(err) appropriately, or if
   // we possibly recovered from the error, simply next().
   let errorStatus = error.status || 500;
+  console.error(error);
   res.status(errorStatus);
   res.send("ERROR(" + errorStatus + "): " + error.toString());
 });

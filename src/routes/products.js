@@ -1,28 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const { db } = require("../utils/db");
+const { merge_where_str } = require("../utils/merge_where_str");
 
 router.get("/", (req, res) => {
-  const { searchValue } = req.query;
+  const { searchValue, authors, tags } = req.query;
 
-  res.locals.searchValue = searchValue;
+  console.log("GET authors", authors);
 
-  const sql = searchValue
-    ? `SELECT * FROM products WHERE LOWER(title) LIKE LOWER('%${res.locals.searchValue}%') OR description LIKE LOWER('%${res.locals.searchValue}%')`
-    : "SELECT * FROM products";
+  let base_statement = "SELECT * FROM products";
 
-  console.log("sql", sql);
+  const authorsArr = Array.isArray(authors) ? authors : [authors];
+  const tagsArr = Array.isArray(tags) ? tags : [tags];
 
-  db.all(sql, [], (err, rows) => {
+  // Appends WHERE statements for the searchValue into our base SELECT statement
+  base_statement += merge_where_str(
+    { searchValue: ["title", "description"], authors: ["author"], tags: ["tags"] },
+    { searchValue: [searchValue], authors: authorsArr, tags: tagsArr }
+  );
+
+  console.log("base_statement", base_statement);
+
+  db.all(base_statement, [], (err, rows) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send("Database error: " + err.message);
     }
 
-    console.log("products", rows);
-
-    res.locals.minPrice = Math.floor(Math.min(...rows.map((row) => row.price)));
-    res.locals.maxPrice = Math.round(Math.max(...rows.map((row) => row.price))) + 5;
+    res.locals.filters.minPrice = Math.floor(Math.min(...rows.map((row) => row.price)));
+    res.locals.filters.maxPrice = Math.round(Math.max(...rows.map((row) => row.price))) + 5;
 
     res.render("index", {
       products: rows.map((product) => ({ ...product, tags: JSON.parse(product.tags) })),

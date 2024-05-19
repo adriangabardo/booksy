@@ -12,13 +12,14 @@
   </div>
   <div class="offcanvas-body">
     <form id="search-form" method="GET">
-      <input type="hidden" name="searchValue" value="<%= searchValue %>" />
+      <input type="hidden" name="searchValue" value="<%= filters.searchValue %>" />
       <h5>Price <output class="text-muted float-end" id="rangeValue"></output></h5>
       <input
         type="range"
         class="form-range"
-        min="<%= minPrice %>"
-        max="<%= maxPrice %>"
+        min="<%= filters.minPrice %>"
+        max="<%= filters.maxPrice %>"
+        value="<%= filters.maxPrice %>"
         step="5"
         id="price"
         name="price"
