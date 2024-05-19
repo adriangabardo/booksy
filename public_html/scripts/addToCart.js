@@ -1,4 +1,4 @@
-function addToCart(productId) {
+function addToCart(productId, productName) {
   let cartId;
 
   try {
@@ -28,6 +28,9 @@ function addToCart(productId) {
 
           // Dispatch an event for other components to listen to and know our cart has changed
           window.dispatchEvent(new Event("cartChange"));
+
+          // Dispatch an event for other components to listen to and know a product was added
+          window.dispatchEvent(new CustomEvent("productAdded", { detail: { productName } }));
         })
         .catch((error) => {
           console.error("Failed to retrieve cart:", error);
