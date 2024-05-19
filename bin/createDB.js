@@ -1,4 +1,4 @@
-const products = require("../public_html/data/products");
+const products = require("../data/products");
 const sqlite3 = require("sqlite3").verbose();
 
 const db = new sqlite3.Database("./booksy.db", (err) => {
