@@ -1,0 +1,57 @@
+<div
+  class="offcanvas offcanvas-start"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Refined Search</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form id="search-form" method="GET">
+      <input type="hidden" name="searchValue" value="<%= searchValue %>" />
+      <h5>Price <output class="text-muted float-end" id="rangeValue"></output></h5>
+      <input
+        type="range"
+        class="form-range"
+        min="<%= minPrice %>"
+        max="<%= maxPrice %>"
+        step="5"
+        id="price"
+        name="price"
+        oninput="document.getElementById('rangeValue').value = '$' + this.value"
+      />
+      <br />
+      <h5>Authors</h5>
+      <% filters.authorsFilter.forEach(function(author) { %>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="<%=author%>" id="flexCheck<%=author%>" name="authors" />
+        <label class="form-check-label" for="flexCheck<%=author%>"> <%=author%> </label>
+      </div>
+      <% }); %>
+      <br />
+      <h5>Years</h5>
+      <% filters.yearsFilter.forEach(function(year) { %>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="<%=year%>" id="flexCheck<%=year%>" name="years" />
+        <label class="form-check-label" for="flexCheck<%=year%>"> <%=year%> </label>
+      </div>
+      <% }); %>
+      <br />
+      <h5>Tags</h5>
+      <% filters.tagsFilter.forEach(function(tag) { %>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="<%=tag%>" id="flexCheck<%=tag%>" name="tags" />
+        <label class="form-check-label text-capitalize" for="flexCheck<%=tag%>"> <%=tag%> </label>
+      </div>
+      <% }); %>
+      <br />
+      <div class="d-grid gap-2" style="margin-top: auto">
+        <button class="btn btn-outline-primary mt-2" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>

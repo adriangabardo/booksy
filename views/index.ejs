@@ -1,0 +1,75 @@
+<%- include('header'); -%> <%- include('navbar'); -%>
+
+<main class="container my-5">
+  <button
+    class="btn btn-primary btn-sm"
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasExample"
+    aria-controls="offcanvasExample"
+  >
+    Display filters
+  </button>
+  <%- include('filters'); -%>
+  <div class="row" id="products">
+    <% products.forEach(function(product) { %>
+    <div class="col-md-4 my-2">
+      <div class="card">
+        <div class="card-img-top" style="position: relative">
+          <img
+            src="<%= product.image %>"
+            style="
+              width: 100%;
+              height: auto;
+              max-height: 200px;
+              object-fit: cover;
+              object-position: 60% center;
+              border-top-left-radius: 5px;
+              border-top-right-radius: 5px;
+            "
+            alt="<%= product.title %>"
+          />
+          <div style="position: absolute; bottom: 0; left: 0; padding: 8px">
+            <% product.tags.forEach(function(tag) { %>
+            <span class="badge bg-primary"><%=tag%></span>
+            <% }); %>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <small class="text-muted float-end"> <%= product.year %></small>
+          <p class="card-text lead mb-0">$<%= product.price %></p>
+          <h5 class="card-title"><%= product.title %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= product.author %></h6>
+          <p class="card-text text-wrap"><%= product.description %></p>
+
+          <div class="d-grid">
+            <button onclick="addToCart('<%= product.id %>')" class="btn btn-primary">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</main>
+<script>
+  function addToCart(productId) {
+    fetch("/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: productId, cartId: localStorage.getItem("cartId") }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        localStorage.setItem("cartId", data.cartId);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+
+<%- include('footer'); -%>
