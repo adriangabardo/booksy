@@ -21,8 +21,15 @@
                 <h5 class="card-title"><%= product.title %></h5>
                 <p class="card-text"><%= product.description %></p>
               </a>
-              <div style="width: 100%; display: inline-flex; justify-content: space-between; align-items: center">
-                <p class="card-text p-0"><small class="text-body-secondary">$<%= product.subtotal %></small></p>
+              <div
+                class="mt-4"
+                style="width: 100%; display: inline-flex; justify-content: space-between; align-items: flex-end"
+              >
+                <div>
+                  <p class="card-text p-0">
+                    <small class="text-body-secondary">$<%= product.price %> (quantity: <%= product.quantity %>)</small>
+                  </p>
+                </div>
                 <button onclick="removeFromCart('<%= product.id %>')" class="btn btn-outline-danger btn-sm">
                   Remove
                 </button>
@@ -36,7 +43,12 @@
     <div class="col">
       <h5>Checkout</h5>
       <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px">
-        <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Summary</h5>
+        <h5
+          class="p-3 text-capitalize"
+          style="background-color: rgb(214, 211, 211); border-top-left-radius: 5px; border-top-right-radius: 5px"
+        >
+          Summary
+        </h5>
         <div class="m-4">
           <table class="table table-borderless table-sm table-responsive">
             <tbody>
@@ -46,7 +58,7 @@
               </tr>
               <tr>
                 <th>Delivery</th>
-                <td class="text-end">Free</td>
+                <td class="text-end text-uppercase">Free</td>
               </tr>
               <tr>
                 <th>Taxes</th>
@@ -62,7 +74,12 @@
       </div>
       <form method="POST">
         <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px" class="mt-2">
-          <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Delivery Address</h5>
+          <h5
+            class="p-3 text-capitalize"
+            style="background-color: rgb(214, 211, 211); border-top-left-radius: 5px; border-top-right-radius: 5px"
+          >
+            Delivery Address
+          </h5>
           <div class="m-4">
             <div class="mb-1">
               <label for="fullName" class="form-label">Full Name</label>
@@ -89,7 +106,12 @@
           </div>
         </div>
         <div style="border: 0.5px solid rgb(209, 209, 209); border-radius: 5px" class="mt-2">
-          <h5 class="p-3 text-capitalize" style="background-color: rgb(214, 211, 211)">Contact Info</h5>
+          <h5
+            class="p-3 text-capitalize"
+            style="background-color: rgb(214, 211, 211); border-top-left-radius: 5px; border-top-right-radius: 5px"
+          >
+            Contact Info
+          </h5>
           <div class="m-4">
             <div class="mb-1">
               <label for="email" class="form-label">Email</label>

@@ -129,10 +129,14 @@ router.get("/checkout/:cartId", (req, res) => {
 
           const total = Math.round(subtotal + taxes);
 
-          res.render("checkout", {
+          const options = {
             checkout: { ...checkout, subtotal, total, taxes },
             products,
-          });
+          };
+
+          // res.status(200).json(options);
+
+          res.render("checkout", options);
         })
         .catch((err) => {
           console.error(err.message);
