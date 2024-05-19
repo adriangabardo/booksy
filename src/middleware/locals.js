@@ -30,7 +30,10 @@ const set_locals = async (req, res, next) => {
       maxPrice: "100",
     };
 
-    res.locals.navLinks = navLinks;
+    res.locals.navLinks = [
+      { title: "Home", url: "/" },
+      ...tagsFilter.slice(0, 8).map((tag) => ({ title: tag, url: "/?tags=" + tag.replace(/\s/, "+") })),
+    ];
 
     return next();
   });
