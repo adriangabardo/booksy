@@ -36,4 +36,25 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/product/:productID", (req, res) => {
+  const { productID } = req.params;
+
+  console.log("productID", productID);
+
+  let base_statement = "SELECT * FROM products WHERE id = ?";
+
+  db.get(base_statement, productID, (err, product) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send(err.message);
+    }
+
+    console.log({ product });
+
+    return res.render("product", {
+      product: product,
+    });
+  });
+});
+
 module.exports = { productsRouter: router };

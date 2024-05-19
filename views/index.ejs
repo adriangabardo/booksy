@@ -37,13 +37,17 @@
         </div>
 
         <div class="card-body">
-          <small class="text-muted float-end"> <%= product.year %></small>
-          <p class="card-text lead mb-0">$<%= product.price %></p>
-          <h5 class="card-title"><%= product.title %></h5>
-          <h6 class="card-subtitle mb-2 text-muted"><%= product.author %></h6>
-          <p class="card-text text-wrap"><%= product.description %></p>
+          <a href="/product/<%= product.id %>" class="text-reset text-decoration-none">
+            <small class="text-muted float-end"> <%= product.year %></small>
+            <p class="card-text lead mb-0">$<%= product.price %></p>
+            <h5 class="card-title"><%= product.title %></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= product.author %></h6>
+            <p class="card-text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">
+              <%= product.description %>
+            </p>
+          </a>
 
-          <div class="d-grid">
+          <div class="d-grid mt-2">
             <button onclick="addToCart('<%= product.id %>')" class="btn btn-primary">ADD TO CART</button>
           </div>
         </div>
@@ -52,46 +56,7 @@
     <% }); %>
   </div>
 </main>
-<script>
-  function addToCart(productId) {
-    let cartId;
 
-    try {
-      const cart = localStorage.getItem("cart");
-      if (cart) {
-        const { checkout } = JSON.parse(cart);
-        cartId = checkout;
-      }
-    } catch {
-      console.warn("Failed to retrieve any existing cart.");
-    }
-
-    fetch("/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ productId: productId, cartId }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        fetch(`/cart?cartId=${data.cartId}`, { method: "GET" })
-          .then((response) => response.json())
-          .then((cart) => {
-            // Set the cart item in localStorage
-            localStorage.setItem("cart", JSON.stringify(cart));
-
-            // Dispatch an event for other components to listen to and know our cart has changed
-            window.dispatchEvent(new Event("cartChange"));
-          })
-          .catch((error) => {
-            console.error("Failed to retrieve cart:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Failed to add to cart:", error);
-      });
-  }
-</script>
+<script src="http://localhost:3000/scripts/addToCart.js" defer></script>
 
 <%- include('footer'); -%>
