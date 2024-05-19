@@ -54,20 +54,42 @@
 </main>
 <script>
   function addToCart(productId) {
+    let cartId;
+
+    try {
+      const cart = localStorage.getItem("cart");
+      if (cart) {
+        const { checkout } = JSON.parse(cart);
+        cartId = checkout;
+      }
+    } catch {
+      console.warn("Failed to retrieve any existing cart.");
+    }
+
     fetch("/cart", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ productId: productId, cartId: localStorage.getItem("cartId") }),
+      body: JSON.stringify({ productId: productId, cartId }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-        localStorage.setItem("cartId", data.cartId);
+        fetch(`/cart?cartId=${data.cartId}`, { method: "GET" })
+          .then((response) => response.json())
+          .then((cart) => {
+            // Set the cart item in localStorage
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            // Dispatch an event for other components to listen to and know our cart has changed
+            window.dispatchEvent(new Event("cartChange"));
+          })
+          .catch((error) => {
+            console.error("Failed to retrieve cart:", error);
+          });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Failed to add to cart:", error);
       });
   }
 </script>

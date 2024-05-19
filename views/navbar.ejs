@@ -14,7 +14,7 @@
       <button class="btn btn-outline-success" type="submit" style="border-radius: 0 0.375rem 0.375rem 0">Search</button>
     </form>
     <div>
-      <a class="nav-link position-relative" href="/cart.html">
+      <a class="nav-link position-relative" href="/checkout">
         <span
           class="badge rounded-pill bg-transparent text-primary position-absolute top-0 start-100 translate-middle"
           id="checkout-quantity"
@@ -38,32 +38,28 @@
 </nav>
 
 <script defer>
-  const fetch_cart = () => {
-    const cartId = localStorage.getItem("cartId");
+  /**
+   * Method to load cart from localStorage, parse as JSON,
+   * then calculate the total items currently in the cart.
+   */
+  const load_cart = () => {
+    const cart = localStorage.getItem("cart");
 
-    if (cartId) {
-      console.log("Fetching cart", cartId);
+    if (cart) {
+      const { items } = JSON.parse(cart);
 
-      fetch(`/cart?cartId=${cartId}`, { method: "GET" })
-        .then((response) => response.json())
-        .then((data) => {
-          const totalItems = data.items.reduce((previous, current) => {
-            previous += current.quantity;
-            return previous;
-          }, 0);
+      const totalItems = items.reduce((previous, current) => {
+        previous += current.quantity;
+        return previous;
+      }, 0);
 
-          console.log("total Items", totalItems);
-
-          document.getElementById("checkout-quantity").textContent = totalItems;
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      document.getElementById("checkout-quantity").textContent = totalItems;
     }
   };
 
-  document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("DOM fully loaded and parsed");
-    fetch_cart();
-  });
+  // When the DOM Content is loaded, load any existing cart from localStorage
+  document.addEventListener("DOMContentLoaded", (event) => load_cart());
+
+  // When a cartChange event is dispatched, listen for it and load any existing cart from localStorage
+  window.addEventListener("cartChange", (event) => load_cart());
 </script>
