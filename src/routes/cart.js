@@ -6,6 +6,10 @@ const { db } = require("../utils/db");
 router.post("/cart", async (req, res) => {
   let { productId, cartId, quantity = 1 } = req.body;
 
+  /**
+   * If a cartId is not passed in, we generate a new UUID
+   * and create a new row in the database before we relate productIds to it
+   */
   if (!cartId) {
     const ID = uuidv4();
 
@@ -21,8 +25,15 @@ router.post("/cart", async (req, res) => {
     cartId = ID;
   }
 
+  /**
+   * Inserts a new product to the existing cart.
+   * In case of CONFLICT, then updates the existing entry adding the new quantity to the existing quantity.
+   */
   const insertItemQuery = `
-    INSERT INTO checkout_items (checkoutId, productId, quantity) VALUES (?, ?, ?)
+    INSERT INTO checkout_items (checkoutId, productId, quantity)
+      VALUES (?, ?, ?)
+      ON CONFLICT(checkoutId, productId) DO UPDATE SET
+        quantity = quantity + excluded.quantity
   `;
 
   db.run(insertItemQuery, [cartId, productId, quantity], function (err) {
