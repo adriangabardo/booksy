@@ -30,7 +30,10 @@
                     <small class="text-body-secondary">$<%= product.price %> (quantity: <%= product.quantity %>)</small>
                   </p>
                 </div>
-                <button onclick="removeFromCart('<%= product.id %>')" class="btn btn-outline-danger btn-sm">
+                <button
+                  onclick="removeFromCart('<%= product.id %>', '<%= product.title %>')"
+                  class="btn btn-outline-danger btn-sm"
+                >
                   Remove
                 </button>
               </div>
@@ -96,7 +99,16 @@
             <div class="row">
               <div class="col-md-6 mb-1">
                 <label for="state" class="form-label">State</label>
-                <input type="text" class="form-control" name="state" placeholder="State" required />
+                <input class="form-control" list="datalistOptions" name="state" placeholder="State" />
+                <datalist id="datalistOptions">
+                  <option value="Australian Capital Territory (ACT)"></option>
+                  <option value="New South Wales (NSW)"></option>
+                  <option value="Victoria (VIC)"></option>
+                  <option value="Queensland (QLD)"></option>
+                  <option value="Tasmania (TAS)"></option>
+                  <option value="South Australia (SA)"></option>
+                  <option value="Western Australia (WA)"></option>
+                </datalist>
               </div>
               <div class="col-md-6 mb-1">
                 <label for="zip" class="form-label">Postal Code</label>
@@ -123,10 +135,9 @@
             </div>
           </div>
         </div>
-
         <div class="d-grid mt-2">
           <button class="btn btn-primary" type="submit">Checkout Order</button>
-          <button class="btn btn-outline-danger mt-2">Clear Cart</button>
+          <button class="btn btn-outline-danger mt-2" onclick="clearCart()">Clear Cart</button>
         </div>
       </form>
     </div>
@@ -134,5 +145,7 @@
 </main>
 
 <script src="http://localhost:3000/scripts/removeFromCart.js" defer></script>
+<script src="http://localhost:3000/scripts/fetchCart.js" defer></script>
+<script src="http://localhost:3000/scripts/clearCart.js" defer></script>
 
 <%- include('footer'); -%>

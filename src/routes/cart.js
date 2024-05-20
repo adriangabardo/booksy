@@ -81,6 +81,50 @@ router.get("/cart", (req, res) => {
   });
 });
 
+router.delete("/cart", (req, res) => {
+  const { cartId, productId } = req.query;
+
+  console.log("Received DELETE cart request", req.query);
+
+  if (!cartId) res.status(400).send("Missing cartId");
+
+  const deleteCheckoutItemQuery = `DELETE FROM checkout_items WHERE checkoutId = ? AND productId = ?`;
+  const deleteAllCheckoutItemsQuery = `DELETE FROM checkout_items WHERE checkoutId = ?`;
+  const deleteCheckoutQuery = `DELETE FROM checkout WHERE id = ?`;
+
+  db.serialize(() => {
+    if (productId) {
+      db.run(deleteCheckoutItemQuery, [cartId, productId], function (err) {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send("Error deleting checkout item");
+        }
+
+        console.log("Deleted single product, returning 204");
+
+        // Return 204 - No Content
+        return res.status(204).send();
+      });
+    } else {
+      db.run(deleteAllCheckoutItemsQuery, [cartId], function (err) {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send("Error deleting all checkout items");
+        }
+
+        db.run(deleteCheckoutQuery, [cartId], function (err) {
+          if (err) {
+            console.error(err.message);
+            return res.status(500).send("Error deleting checkout");
+          }
+
+          return res.status(204).send();
+        });
+      });
+    }
+  });
+});
+
 router.get("/checkout/:cartId", (req, res) => {
   const { cartId } = req.params;
 
