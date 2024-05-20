@@ -14,25 +14,6 @@ db.serialize(() => {
   db.run("PRAGMA foreign_keys = ON;");
 
   db.run(
-    `CREATE TABLE IF NOT EXISTS feedback (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        productId TEXT,
-        fullName TEXT,
-        comment TEXT,
-        rating INT,
-        FOREIGN KEY (productId) REFERENCES products(id)
-    )`,
-    (err) => {
-      if (err) {
-        console.error(err.message);
-        throw err;
-      }
-
-      console.log("Feedback table created successfully.");
-    }
-  );
-
-  db.run(
     `CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
@@ -53,14 +34,20 @@ db.serialize(() => {
     }
   );
 
-  db.run(`CREATE TABLE IF NOT EXISTS checkout (id TEXT PRIMARY KEY)`, (err) => {
-    if (err) {
-      console.error(err.message);
-      throw err;
-    }
+  db.run(
+    `CREATE TABLE IF NOT EXISTS checkout (
+      id TEXT PRIMARY KEY,
+      status TEXT CHECK(status IN ('OPEN', 'FINISHED')) NOT NULL DEFAULT 'OPEN'
+    )`,
+    (err) => {
+      if (err) {
+        console.error(err.message);
+        throw err;
+      }
 
-    console.log("Checkout table created successfully.");
-  });
+      console.log("Checkout table created successfully.");
+    }
+  );
 
   db.run(
     `CREATE TABLE IF NOT EXISTS checkout_items (

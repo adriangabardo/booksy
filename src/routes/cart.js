@@ -191,8 +191,22 @@ router.get("/checkout/:cartId", (req, res) => {
 });
 
 router.post("/checkout/:cartId", (req, res) => {
-  // res.status(200).json("OK!");
-  res.redirect("/");
+  const cartId = req.params.cartId;
+
+  const updateCheckoutStatusQuery = `UPDATE checkout SET status = 'FINISHED' WHERE id = ?`;
+
+  db.run(updateCheckoutStatusQuery, [cartId], function (err) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Error updating checkout status");
+    }
+
+    const orderId = cartId.slice(0, 4) + "-" + cartId.slice(cartId.length - 4);
+
+    res.status(200).render("checkout_success", {
+      orderId,
+    });
+  });
 });
 
 module.exports = { cartRouter: router };

@@ -1,0 +1,23 @@
+<%- include('header'); -%> <%- include('navbar'); -%>
+
+<main
+  class="container my-5 text-align-center"
+  style="display: flex; flex-direction: column; align-items: center; justify-items: center"
+>
+  <img
+    src="http://localhost:3000/cart_doodle.svg"
+    style="height: max-content; max-height: 450px; width: auto; object-fit: cover"
+  />
+  <h2>Success!</h2>
+  <p>Your order number is <b class="text-uppercase">#<%= orderId %></b>.<br />We will keep you posted by email!</p>
+</main>
+
+<script>
+  // Set the cart item in localStorage
+  localStorage.removeItem("cart");
+
+  // Dispatch an event for other components to listen to and know our cart has changed
+  window.dispatchEvent(new Event("cartChange"));
+</script>
+
+<%- include('footer'); -%>
