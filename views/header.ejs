@@ -24,30 +24,37 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
     <script>
-      // When a cartChange event is dispatched, listen for it and load any existing cart from localStorage
-      window.addEventListener("productAdded", (event) => {
-        const toastElement = document.getElementById("book-added-toast");
-        const toastBodyElement = document.getElementById("toast-body-book-added");
+      // When an alert event is dispatched, listen for it and set it as the current toast
+      window.addEventListener("alertDispatched", (event) => {
+        const toastElement = document.getElementById("alert-toast");
+        const toastHeaderElement = document.getElementById("alert-toast-header");
+        const toastBodyElement = document.getElementById("alert-toast-body");
+
+        if (!toastElement) return;
+
+        if (toastHeaderElement) {
+          toastHeaderElement.textContent = event.detail.header ?? "";
+        }
 
         if (toastBodyElement) {
-          toastBodyElement.textContent = event.detail.productName ?? "";
+          toastBodyElement.textContent = event.detail.body ?? "";
         }
 
-        if (toastElement) {
-          const toast = new bootstrap.Toast(toastElement, { delay: 10000 });
-          toast.show();
-        }
+        const toast = new bootstrap.Toast(toastElement, { delay: 10000 });
+        toast.show();
       });
     </script>
   </head>
 
   <body>
     <div class="toast-container position-fixed bottom-0 start-0 p-3">
-      <div class="toast text-bg-light" id="book-added-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast text-bg-light" id="alert-toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-          <strong class="me-auto">Book added to cart</strong>
+          <strong class="me-auto" id="alert-toast-header"></strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" id="toast-body-book-added"></div>
+        <div class="toast-body" id="alert-toast-body"></div>
       </div>
     </div>
+  </body>
+</html>

@@ -30,7 +30,14 @@ function addToCart(productId, productName) {
           window.dispatchEvent(new Event("cartChange"));
 
           // Dispatch an event for other components to listen to and know a product was added
-          window.dispatchEvent(new CustomEvent("productAdded", { detail: { productName } }));
+          window.dispatchEvent(
+            new CustomEvent("alertDispatched", {
+              detail: {
+                header: "Book added to cart",
+                body: productName,
+              },
+            })
+          );
         })
         .catch((error) => {
           console.error("Failed to retrieve cart:", error);
