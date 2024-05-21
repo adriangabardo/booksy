@@ -1,4 +1,14 @@
-# Overview
+# Booksy
+
+## Repository Link
+
+[https://github.com/adriangabardo/booksy/](https://github.com/adriangabardo/booksy/)
+
+## Video Demo Link
+
+[https://deakin.au.panopto.com/Panopto/Pages/Viewer.aspx?id=789f1fb0-8e29-4f61-948c-b177009783ff](https://deakin.au.panopto.com/Panopto/Pages/Viewer.aspx?id=789f1fb0-8e29-4f61-948c-b177009783ff)
+
+## Overview
 
 For my task 10.4HD submission, I have decided to implement an ecommerce web platform that sells books.
 I decided to have the following pages on my website:
@@ -33,3 +43,4 @@ There are many features that could be implemented on top of the work that has be
 - Cart summary on icon hover
 - Specifying quantity of items to add/delete to/from cart
 - Feedback component on product details page
+- Pagination
