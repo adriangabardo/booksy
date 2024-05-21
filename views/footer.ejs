@@ -1,12 +1,103 @@
-    <footer class="py-3 my-4">
-      <ul class="nav justify-content-center border-bottom pb-3 mb-3" id="link-list-footer"></ul>
-      <p class="text-center text-muted small">© 2024 Booksy, Inc</p>
-    </footer>
+<footer class="py-3 my-4">
+  <ul class="nav justify-content-center border-bottom pb-3 mb-3" id="link-list-footer"></ul>
+  <p class="text-center text-muted small">© 2024 Booksy, Inc</p>
+  <div class="container">
+    <p><b>This website is powered by the following features:</b></p>
+    <ul>
+      <li class="mt-2">
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">LocalStorage API</a> for
+        persisting cart state between tabs, windows, and sessions.
+        LocalStorage allows data to be saved in the browser, ensuring that even if a user closes the browser or reloads
+        the page, the cart state remains intact. This is implemented by using
+        the <code>localStorage.setItem</code> method to save the cart data and <code>localStorage.getItem</code> to
+        retrieve it.
+      </li>
+      <li class="mt-2">
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent">CustomEvent API</a> for
+        dispatching events that can be listened to by other tabs/windows on the browser.
+        CustomEvent allows us to create and dispatch events programmatically, enabling communication between different
+        parts of our application. This feature is implemented by creating a
+        <code>CustomEvent</code> instance and using the <code>window.dispatchEvent</code> method to broadcast it. For
+        example, we dispatch CustomEvents to notify our website of when we change our cart object in LocalStorage, or
+        when
+        a product has been added/removed from the cart, so that our website can react to these events.
+      </li>
+      <li class="mt-2">
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">EventTarget API</a> for
+        listening to events dispatched by other tabs/windows and triggering a function based on them.
+        EventTarget provides a way to listen for specific events and execute corresponding functions. This is
+        implemented using the <code>addEventListener</code> method to set up listeners for our custom events.
+      </li>
+      <li class="mt-2">
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> for XHR requests.
+        The Fetch API provides a modern, flexible way to make network requests and handle responses. We use
+        <code>fetch</code> to retrieve data from the server and handle responses with promises,
+        simplifying asynchronous operations and error handling.
+      </li>
+      <li class="mt-2">
+        <a href="https://expressjs.com/">ExpressJS</a> as a web server framework.
+        ExpressJS simplifies the process of building robust web applications and APIs. We use Express to set up our
+        server, define routes, and handle requests and responses efficiently.
+        It provides middleware to manage various functionalities such as routing, authentication, and error handling.
+      </li>
+      <li class="mt-2">
+        <a href="https://www.npmjs.com/package/ejs">EJS</a> for SSR of templates.
+        EJS (Embedded JavaScript templates) allows us to generate HTML markup with plain JavaScript. It helps in
+        server-side rendering (SSR) by injecting data into templates, making it easier
+        to create dynamic content. We implement EJS by setting it as our view engine in Express and using it to render
+        templates.
+      </li>
+      <li class="mt-2">
+        <a href="https://github.com/TryGhost/node-sqlite3">SQLite3</a> as a disk-persisted database.
+        SQLite3 is a lightweight, disk-based database that doesn't require a separate server process. We use SQLite3 to
+        store and manage our application's data persistently.
+        It is integrated into our application through the <code>sqlite3</code> Node.js module, allowing us to execute
+        SQL queries for data operations.
+      </li>
+      <li class="mt-2">
+        <a href="https://www.npmjs.com/package/apicache">APICache</a> as an in-memory cache middleware.
+        APICache helps improve the performance of our application by caching API responses in memory. This reduces the
+        load on the server by serving cached responses for subsequent requests.
+        We integrate APICache by using it as middleware in our Express application, specifying the endpoints to cache.
+      </li>
+      <li class="mt-2">
+        <a href="https://www.npmjs.com/package/compression">Compression</a> as a payload compression middleware.
+        Compression reduces the size of the response payloads, improving the load time and performance of our web
+        application. We use the <code>compression</code> middleware in Express to automatically
+        compress responses, making data transfer between server and client faster.
+      </li>
+      <li class="mt-2">
+        <a href="https://www.npmjs.com/package/uuid">UUID</a> for unique identifiers generation.
+        UUIDs (Universally Unique Identifiers) ensure that each identifier is unique across different systems and
+        applications. We use the <code>uuid</code> module to generate unique IDs for various
+        entities in our application, such as user sessions and database records.
+      </li>
+      <li class="mt-2">
+        <a href="https://getbootstrap.com/">Bootstrap</a> as a frontend toolkit.
+        Bootstrap provides a collection of CSS and JavaScript components for building responsive and mobile-first web
+        pages. We use Bootstrap to style our web application and ensure it is
+        visually appealing and functional across different devices and screen sizes.
+      </li>
+    </ul>
+    <p><b>Some more advanced Bootstrap components utilised in this project:</b></p>
+    <ul>
+      <li class="mt-2"><a href="https://getbootstrap.com/docs/5.3/components/offcanvas/">Offcanvas</a> - Used to hide
+        the advanced search which includes filters by author, year and category/tag</li>
+      <li class="mt-2"><a href="https://getbootstrap.com/docs/5.3/forms/range/">Range</a> - Used in the advanced search
+        for specifying an upper limit on the product prices</li>
+      <li class="mt-2"><a href="https://getbootstrap.com/docs/5.3/components/toasts/">Toasts</a> - Used alongside
+        event-driven development to show alerts to users on key interactions</li>
+      <li class="mt-2"><a href="https://getbootstrap.com/docs/5.3/forms/form-control/#datalists">Data Lists</a> - Used
+        in the checkout order State field to search for states by full name or abbreviation</li>
+      <li class="mt-2"><a href="https://getbootstrap.com/docs/5.3/components/badge/#pill-badges">Pill Badges</a> - Used
+        on the cart icon to indicate how many items are currently in the cart</li>
+    </ul>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
 </html>
