@@ -1,9 +1,13 @@
 const express = require("express");
-const router = express.Router();
+const apicache = require("apicache");
+
 const { db } = require("../utils/db");
 const { merge_where_str } = require("../utils/merge_where_str");
 
-router.get("/", (req, res) => {
+const router = express.Router();
+const cache = apicache.middleware;
+
+router.get("/", cache("5 minutes"), (req, res) => {
   const { searchValue, authors, tags } = req.query;
 
   console.log("GET authors", authors);
@@ -36,7 +40,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/product/:productID", (req, res) => {
+router.get("/product/:productID", cache("5 minutes"), (req, res) => {
   const { productID } = req.params;
 
   console.log("productID", productID);

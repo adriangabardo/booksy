@@ -1,3 +1,4 @@
+const compression = require("compression");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
@@ -9,6 +10,9 @@ const { productsRouter } = require("./routes/products");
 
 const app = express();
 const port = 3000;
+
+// Middleware to compress payloads for performance reasons
+app.use(compression());
 
 // Middleware to parse JSON payloads
 app.use(express.json());
