@@ -24,7 +24,7 @@ router.get("/", cache("5 minutes"), (req, res) => {
     { searchValue: [searchValue], authors: authorsArr, tags: tagsArr, years: yearsArr }
   );
 
-  if (price) {
+  if (price && price > 0) {
     let price_statement = `CAST(price AS REAL) <= ${price}`;
 
     if (base_statement.includes("WHERE")) price_statement = " OR " + price_statement;

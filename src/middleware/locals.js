@@ -26,8 +26,6 @@ const set_locals = async (req, res, next) => {
       authorsFilter,
       yearsFilter,
       tagsFilter,
-      minPrice: "5",
-      maxPrice: "100",
     };
 
     res.locals.navLinks = [
