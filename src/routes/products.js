@@ -8,7 +8,7 @@ const router = express.Router();
 const cache = apicache.middleware;
 
 router.get("/", cache("5 minutes"), (req, res) => {
-  const { searchValue, authors, tags } = req.query;
+  const { searchValue, authors, tags, price, years } = req.query;
 
   console.log("GET authors", authors);
 
@@ -16,12 +16,22 @@ router.get("/", cache("5 minutes"), (req, res) => {
 
   const authorsArr = Array.isArray(authors) ? authors : [authors];
   const tagsArr = Array.isArray(tags) ? tags : [tags];
+  const yearsArr = Array.isArray(years) ? years : [years];
 
   // Appends WHERE statements for the searchValue into our base SELECT statement
   base_statement += merge_where_str(
-    { searchValue: ["title", "description"], authors: ["author"], tags: ["tags"] },
-    { searchValue: [searchValue], authors: authorsArr, tags: tagsArr }
+    { searchValue: ["title", "description"], authors: ["author"], tags: ["tags"], years: ["year"] },
+    { searchValue: [searchValue], authors: authorsArr, tags: tagsArr, years: yearsArr }
   );
+
+  if (price) {
+    let price_statement = `CAST(price AS REAL) <= ${price}`;
+
+    if (base_statement.includes("WHERE")) price_statement = " OR " + price_statement;
+    else price_statement = " WHERE " + price_statement;
+
+    base_statement += price_statement;
+  }
 
   console.log("base_statement", base_statement);
 
@@ -30,9 +40,6 @@ router.get("/", cache("5 minutes"), (req, res) => {
       console.error(err.message);
       return res.status(500).send("Database error: " + err.message);
     }
-
-    res.locals.filters.minPrice = Math.floor(Math.min(...rows.map((row) => row.price)));
-    res.locals.filters.maxPrice = Math.round(Math.max(...rows.map((row) => row.price))) + 5;
 
     res.render("index", {
       products: rows.map((product) => ({ ...product, tags: JSON.parse(product.tags) })),
